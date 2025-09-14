@@ -17,5 +17,4 @@ public class HomeController {
     return "All products loaded";
   }
 }
-
 // test for push
