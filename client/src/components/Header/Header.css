@@ -2,6 +2,7 @@
     height: 34vw;
     margin: 30px auto;
     background: url('../../../public/header_img.png') no-repeat;
+    background-size: contain;
     position:relative;
 }
 .header-contents{
@@ -35,4 +36,46 @@
     background-color: white;
     font-size: max(1vw, 13px);
     border-radius: 50px;
+}
+
+@media(max-width: 1050px){
+    .header-contents{
+        max-width: 45%;
+        
+    }
+}
+@media(max-width: 750px){
+    .header-contents{
+        max-width: 65%
+    }
+    .header-contents p{
+        display: none;
+        
+    }
+    .header-contents button{
+        padding: 2vw 4vw;
+    }
+}
+
+@media (max-width: 480px) {
+    .header {
+        margin: 20px auto;
+        height: 40vw;
+        max-height: 200px;
+    }
+    
+    .header-contents {
+        max-width: 80%;
+        left: 4vw;
+        bottom: 15%;
+    }
+    
+    .header-contents h2 {
+        font-size: 18px;
+    }
+    
+    .header-contents button {
+        padding: 8px 16px;
+        font-size: 12px;
+    }
 }
