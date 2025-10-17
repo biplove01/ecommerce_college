@@ -1,5 +1,6 @@
 package com.biplove.ecommerce.security;
 
+import com.biplove.ecommerce.models.enums.UserRole;
 import com.biplove.ecommerce.service.CustomerUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -44,10 +45,13 @@ public class SecurityConfig {
                 sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         
         .authorizeHttpRequests(authz-> authz
-            
-            .requestMatchers(HttpMethod.GET, "/product/**").permitAll()
-            .requestMatchers(HttpMethod.POST, "/product/**").permitAll()
+//                .anyRequest().permitAll()
+                .requestMatchers("/error").permitAll()
+                .requestMatchers(HttpMethod.GET, "/product/**").permitAll()
+            .requestMatchers(HttpMethod.POST, "/product/**").hasAnyAuthority(String.valueOf(UserRole.SELLER))
             .requestMatchers(HttpMethod.GET, "/customer/**").permitAll()
+            .requestMatchers(HttpMethod.POST, "/photos/**").permitAll()
+            .requestMatchers(HttpMethod.GET, "/photos/**").permitAll()
             .requestMatchers(HttpMethod.GET, "/seller/**").permitAll()
             .requestMatchers(HttpMethod.POST, "/api/auth/**").permitAll()
             .requestMatchers("/admin/**").hasRole("ADMIN")
