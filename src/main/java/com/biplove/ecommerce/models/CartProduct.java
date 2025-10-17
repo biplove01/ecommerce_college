@@ -18,12 +18,10 @@ public class CartProduct {
   private Integer quantity;
   
   @ManyToOne
-  @JoinTable(name="cart_id")
+  @JoinColumn(name="cart_id", nullable = false)
   private Cart cart;
   
   @ManyToOne
-  @JoinTable(name="cart_product_and_product",
-      joinColumns = @JoinColumn(name = "cart_product_id", referencedColumnName = "id"),
-      inverseJoinColumns = @JoinColumn(name="product_id", referencedColumnName = "id"))
+  @JoinColumn(name = "product_id", nullable = false)
   private Product product;
 }

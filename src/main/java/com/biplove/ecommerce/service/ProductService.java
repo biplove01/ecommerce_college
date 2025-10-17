@@ -7,6 +7,7 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,7 +19,10 @@ public class ProductService {
   }
   
   
-  public Product saveProduct(Product product){
+  public Product saveProduct(Product product, UserDetails userDetails){
+    
+    UserDetails userDetails1 = userDetails;
+    
     return this.productRepository.save(product);
   }
   
