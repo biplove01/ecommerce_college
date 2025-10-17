@@ -44,8 +44,9 @@ public class SecurityConfig {
                 sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         
         .authorizeHttpRequests(authz-> authz
-            
-            .requestMatchers(HttpMethod.GET, "/product/**").permitAll()
+//                .anyRequest().permitAll()
+                .requestMatchers("/error").permitAll()
+                .requestMatchers(HttpMethod.GET, "/product/**").permitAll()
             .requestMatchers(HttpMethod.POST, "/product/**").permitAll()
             .requestMatchers(HttpMethod.GET, "/customer/**").permitAll()
             .requestMatchers(HttpMethod.GET, "/seller/**").permitAll()

@@ -4,6 +4,9 @@ import com.biplove.ecommerce.GlobalExceptionHandler.CustomExceptions.ProductDoes
 import com.biplove.ecommerce.models.Product;
 import com.biplove.ecommerce.repository.ProductRepository;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -62,6 +65,27 @@ public class ProductService {
   public Iterable<Product> getAllProducts(){
     return this.productRepository.findAll();
   }
+  
+  
+  public Iterable<Product> sort(String field){
+    
+    return this.productRepository.findAll(Sort.by(Sort.Direction.ASC, field));
+  }
+  
+  public Iterable<Product> sortWithPaginationAndOffsetAndField(String field, int offset, int pageSize){
+    return this.productRepository.findAll(PageRequest.of(offset, pageSize).withSort(Sort.by(field)));
+  }
+  
+  public Iterable<Product> search(String keyword, String field, int offset, int pageSize ){
+    
+    if (pageSize < 1) {
+      throw new IllegalArgumentException("Page size must be greater than zero.");
+    }
+    
+    Pageable pageable = PageRequest.of(offset, pageSize, Sort.by(field));
+    return this.productRepository.searchByNameWithPagination(keyword, pageable);
+  }
+  
   
   public Boolean checkIfAlreadyExists(Long id){
     return this.productRepository.findById(id).orElse(null) != null;

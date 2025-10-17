@@ -47,4 +47,22 @@ public class ProductController {
     return this.productService.getAllProducts();
   }
   
+  
+  @GetMapping("/sort/{field}")
+  private Iterable<Product> sort(@PathVariable String field){
+    
+    return this.productService.sort(field);
+  }
+  
+  @GetMapping("/pagination/{offset}/{pageSize}/{field}")
+  private Iterable<Product> pagination(@PathVariable String field, @PathVariable int offset, @PathVariable int pageSize){
+    
+    return this.productService.sortWithPaginationAndOffsetAndField(field, offset, pageSize);
+  }
+  
+  @GetMapping("/search/{keyword}/{field}/{offset}/{pageSize}")
+  private Iterable<Product> search( @PathVariable String keyword, @PathVariable String field, @PathVariable int offset, @PathVariable int pageSize){
+    
+    return this.productService.search(keyword, field, offset, pageSize);
+  }
 }
