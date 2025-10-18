@@ -9,6 +9,7 @@ import './App.css'
 import Footer from './components/Footer/Footer'
 import { useState } from 'react'
 import LoginPopUp from './components/LoginPopUp/LoginPopUp'
+import ProductList from "./pages/ProductList/ProductList";
 
 function App() {
 
@@ -23,6 +24,9 @@ function App() {
         <Route path='/' element={<Home/>}/>
         <Route path='/cart' element={<Cart/>}/>
         <Route path='/order' element={<PlaceOrder/>}/>
+        <Route path='/productList' element={<ProductList/>}/>
+
+
       </Routes>
     </div>
     <Footer/>

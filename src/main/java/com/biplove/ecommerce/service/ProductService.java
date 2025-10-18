@@ -1,8 +1,15 @@
 package com.biplove.ecommerce.service;
 
+import com.biplove.ecommerce.DTOs.ProductDTO;
+import com.biplove.ecommerce.DTOs.SellerDTO;
 import com.biplove.ecommerce.GlobalExceptionHandler.CustomExceptions.ProductDoesnotExistsException;
+import com.biplove.ecommerce.GlobalExceptionHandler.CustomExceptions.UserDoesnotExistsException;
 import com.biplove.ecommerce.models.Product;
+import com.biplove.ecommerce.models.User.ProductMapper;
+import com.biplove.ecommerce.models.User.SellerMapper;
+import com.biplove.ecommerce.models.User.UserEntity;
 import com.biplove.ecommerce.repository.ProductRepository;
+import com.biplove.ecommerce.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -10,20 +17,48 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class ProductService {
   private final ProductRepository productRepository;
+  private final UserRepository userRepository;
   
-  ProductService(ProductRepository productRepository){
+  ProductService(ProductRepository productRepository, UserRepository userRepository){
     this.productRepository = productRepository;
+    this.userRepository = userRepository;
   }
   
   
-  public Product saveProduct(Product product, UserDetails userDetails){
+  public ProductDTO saveProduct(Product product, UserDetails userDetails){
     
-    UserDetails userDetails1 = userDetails;
+    Optional<UserEntity> seller = this.userRepository.findByEmail(userDetails.getUsername());
     
-    return this.productRepository.save(product);
+    if(seller.isEmpty()){
+      throw new UserDoesnotExistsException("The seller of email " + userDetails.getUsername() + " does not exist");
+    }
+    
+    
+    
+    Product productToSave = new Product();
+//    ProductDTO productToSave = new ProductDTO();
+    
+    productToSave.setName(product.getName());
+    productToSave.setDescription(product.getDescription());
+    productToSave.setImages(product.getImages());
+    productToSave.setRating(0F);
+    productToSave.setQuantity(product.getQuantity());
+    productToSave.setPrice(product.getPrice());
+    productToSave.setDiscountedPrice(product.getDiscountedPrice());
+    
+//    SellerDTO sellerDTO = new SellerDTO();
+    
+    productToSave.setSeller(seller.get());
+//    productToSave.setSeller(SellerMapper.mapToSellerDTO(seller.get()));
+    Product savedProduct = this.productRepository.save(productToSave);
+    
+    
+    return ProductMapper.mapToProductDTO(savedProduct);
   }
   
   public Product updateProduct(Product product){

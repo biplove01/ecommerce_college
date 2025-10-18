@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 
 @Entity
 @NoArgsConstructor
@@ -17,9 +18,12 @@ public class Product {
   private Long id;
   
   private String name;
+  private String description;
   private Long price;
   private Integer quantity;
   private Long discountedPrice;
+  private Float rating;
+  private String images;
   
   
   @ManyToOne

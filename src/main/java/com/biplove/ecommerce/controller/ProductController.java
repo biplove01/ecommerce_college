@@ -1,5 +1,6 @@
 package com.biplove.ecommerce.controller;
 
+import com.biplove.ecommerce.DTOs.ProductDTO;
 import com.biplove.ecommerce.models.Product;
 import com.biplove.ecommerce.service.ProductService;
 import org.springframework.http.ResponseEntity;
@@ -20,9 +21,9 @@ public class ProductController {
   }
 
   @PostMapping("/create")
-  private ResponseEntity<Product> createProduct(@RequestBody Product product, @AuthenticationPrincipal UserDetails userDetails){
+  private ResponseEntity<ProductDTO> createProduct(@RequestBody Product product, @AuthenticationPrincipal UserDetails userDetails){
   
-    Product newProduct = this.productService.saveProduct(product, userDetails);
+    ProductDTO newProduct = this.productService.saveProduct(product, userDetails);
     return ResponseEntity.created(URI.create("/product/"+ newProduct.getId())).body(newProduct);
   }
   
@@ -67,4 +68,6 @@ public class ProductController {
     
     return this.productService.search(keyword, field, offset, pageSize);
   }
+  
+  
 }
