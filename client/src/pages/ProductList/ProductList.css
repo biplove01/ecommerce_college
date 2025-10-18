@@ -120,3 +120,33 @@
     line-height: 1;
     padding: 4px;
 }
+
+button{
+    all: unset;
+    padding: 6px 8px;
+    border: 1px solid gray;
+    border-radius: 4px;
+    font-size: 12px;
+    text-align: center;
+    cursor: pointer;
+}
+
+button:hover{
+    background-color: #9fc0f8;
+
+}
+
+.little-x-btn{
+    position: absolute;
+    top: -6px;
+    left: -6px;
+    background: red;
+    color: white;
+    border-radius: 50%;
+    border: none;
+    width: 10px;
+    height: 12px;
+    cursor: pointer;
+    font-size: 12px;
+    line-height: 12px;
+}

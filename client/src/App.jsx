@@ -9,7 +9,8 @@ import './App.css'
 import Footer from './components/Footer/Footer'
 import { useState } from 'react'
 import LoginPopUp from './components/LoginPopUp/LoginPopUp'
-import ProductList from "./pages/ProductList/ProductList";
+import AddProductsComponent from "./pages/ProductList/AddProductsComponent";
+import ProductListPage from "./pages/ProductList/ProductListPage";
 
 function App() {
 
@@ -24,7 +25,7 @@ function App() {
         <Route path='/' element={<Home/>}/>
         <Route path='/cart' element={<Cart/>}/>
         <Route path='/order' element={<PlaceOrder/>}/>
-        <Route path='/productList' element={<ProductList/>}/>
+        <Route path='/productList' element={<ProductListPage/>}/>
 
 
       </Routes>
