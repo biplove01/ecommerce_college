@@ -18,7 +18,7 @@ public class CustomerService {
   }
   
   
-  public CustomerDTO getCustomerById(Long id){
+  public CustomerDTO getUserById(Long id){
     
     UserEntity user = this.userRepository.findById(id).orElse(null);
     
