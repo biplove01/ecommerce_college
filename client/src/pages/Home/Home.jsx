@@ -8,7 +8,7 @@ import Toaster from "../../components/Toaster/Toaster";
 
 const Home = () => {
 
-    const [category, setCategory] = useState('All')
+  const [category, setCategory] = useState('All')
 
 
 

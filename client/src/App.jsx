@@ -1,16 +1,17 @@
 import React from 'react'
 import Navbar from './components/Navbar/Navbar'
-import { Routes } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
 import Home from './pages/Home/Home'
 import Cart from './pages/Cart/Cart'
 import PlaceOrder from './pages/PlaceOrder/PlaceOrder'
-import { Route } from 'react-router-dom'
 import './App.css'
 import Footer from './components/Footer/Footer'
 import { useState } from 'react'
 import LoginPopUp from './components/LoginPopUp/LoginPopUp'
 import AddProductsComponent from "./pages/ProductList/AddProductsComponent";
 import ProductListPage from "./pages/ProductList/ProductListPage";
+import Verification  from './pages/Verification/Verification'
+import MyOrders from './pages/MyOrders/MyOrders'
 
 function App() {
 
@@ -28,6 +29,8 @@ function App() {
         <Route path='/productList' element={<ProductListPage/>}/>
 
 
+        <Route path='/verify' element={<Verification/>}/>
+        <Route path='/myorders' element={<MyOrders/>}/>
       </Routes>
     </div>
     <Footer/>

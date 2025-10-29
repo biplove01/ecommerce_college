@@ -1,0 +1,15 @@
+.app {
+  width: 100%;
+}
+
+.app-content {
+  display: flex;
+  width: 100%;
+}
+
+.app hr {
+  border: none;
+  height: 1px;
+  background-color: #e0e0e0;
+  margin: 0;
+}
