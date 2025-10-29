@@ -8,6 +8,8 @@
 }
 
 .food-item-image{
+    /*display: flex;*/
+    /*flex-direction: column;*/
     width: 100%;
     border-radius: 15px 15px 0px 0px;
 }
@@ -39,7 +41,15 @@
     color: tomato;
     font-size: 22px;
     font-weight:500;
-    margin:10px 0px
+    margin:10px 0;
+}
+
+.food-item-price-discounted{
+    color: dimgray;
+    text-decoration: line-through;
+    font-size: 22px;
+    font-weight:500;
+    margin:10px 0;
 }
 
 .food-item-img-container{

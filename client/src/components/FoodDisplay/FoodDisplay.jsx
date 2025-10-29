@@ -14,8 +14,9 @@ const FoodDisplay = (category) => {
         const res = await fetch(BACKEND_URL + "/product/pagination/0/24/name");
         if (res.ok) {
             const response = await res.json();
-
-            setFoodItems((prevState)=> [...prevState, response])
+            const foodItemsList = response.content;
+            console.log(foodItemsList)
+            setFoodItems(foodItemsList)
         }
 
     }
@@ -30,15 +31,17 @@ const FoodDisplay = (category) => {
 
             <h2>Top Dishes near you</h2>
             <div className="food-display-list">
-                {food_list.map((item, index) => {
-                    if (category.category === "All" || item.category === category.category)
-                        return <FoodItem key={index} id={item._id} name={item.name} price={item.price}
-                                         description={item.description} image={item.image}/>
+                {/*<pre>{JSON.stringify(foodItems, null, 4)}</pre>*/}
+                {foodItems && foodItems.map((item, index) => {
+                    // if (category.category === "All" || item.category === category.category)
+                    return <FoodItem key={index} id={item.id} name={item.name} price={item.price}
+                                     discountedPrice={item.discountedPrice}
+                                     description={item.description} images={item.images} rating={item.rating} seller={item.seller && item.seller}/>
                 })}
             </div>
 
-    </div>
-  )
+        </div>
+    )
 }
 
 export default FoodDisplay

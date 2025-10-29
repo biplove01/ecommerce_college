@@ -55,14 +55,14 @@ const Navbar = ({setShowLogin}) => {
                     <div className="navbar-search-icon">
                         <Link to='/productList'><img src={assets.productList_icon} alt=""
                                                      className="basket-icon"/></Link>
-                        <div className={getTotalCartAmount() === 0 ? "" : "dot"}></div>
+                        {/*<div className={getTotalCartAmount() === 0 ? "" : "dot"}></div>*/}
                     </div>
                 }
 
 
                 <div className="navbar-search-icon">
                     <Link to='/cart'><img src={assets.cart_icon} alt="" className="basket-icon"/></Link>
-                    <div className={getTotalCartAmount() === 0 ? "" : "dot"}></div>
+                    {/*<div className={getTotalCartAmount() === 0 ? "" : "dot"}></div>*/}
                 </div>
 
                 {!isLoggedIn &&
