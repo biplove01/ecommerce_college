@@ -91,23 +91,31 @@ const LoginPopUp = ({setShowLogin}) => {
             const data = await response.json();
             if (response.status === 200) {
                 showToast("success", "Success!", "Successfully logged in.")
+
                 sessionStorage.setItem("accessToken", "Bearer " + data.accessToken);
                 sessionStorage.setItem("userData", JSON.stringify(data));
-                setTimeout(() => {
-                    window.location.href = "/"
-                }, 500)
+
+                if (data?.sellerDTO !== null && data?.sellerDTO?.sellerRankStatus) {
+                    setTimeout(() => {
+                        window.location.href = "/productList"
+                    }, 500)
+                }else{
+                    setTimeout(() => {
+                        window.location.href = "/"
+                    }, 500)
+                }
+
+
             } else {
                 showToast("error", "Failed", data.error || "Failed to Log in!")
             }
         }
     }
 
-    const showToast = (type, title, message, duration = 3000) => {
+    const showToast = (type, title, message, duration = 1500) => {
         setToast({show: true, type, title, message});
         setTimeout(() => setToast(prev => ({...prev, show: false})), duration);
     };
-
-
 
 
     return (<div className='login-popup'>

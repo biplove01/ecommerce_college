@@ -38,17 +38,39 @@ const Navbar = ({setShowLogin}) => {
 
     return (
         <div className='navbar'>
-            <Link to='/'><img src={assets.logo} alt="" className="logo"/></Link>
-            <ul className="navbar-menu">
-                <Link to='/' onClick={() => setMenu("home")} className={menu === "home" ? "active" : ""}>Home </Link>
-                <a href='#explore-menu' onClick={() => setMenu("menu")}
-                   className={menu === "menu" ? "active" : ""}>Menu</a>
-                <a href='#footer' onClick={() => setMenu("contact")} className={menu === "contact" ? "active" : ""}>Contact
-                    Us</a>
-                {/*<a href='/productList' onClick={() => setMenu("product-list")} className={menu === "product-list" ? "active" : ""}>Product List</a>*/}
-            </ul>
+
+            {
+                !isLoggedIn &&
+                <Link to='/'><img src={assets.logo} alt="" className="logo"/></Link>
+            }
+            {
+                isLoggedIn && userData?.customerRankStatus &&
+                <Link to='/'><img src={assets.logo} alt="" className="logo"/></Link>
+            }
+            {
+                isLoggedIn && userData?.sellerRankStatus &&
+                <Link to='/productList'><img src={assets.logo} alt="" className="logo"/></Link>
+            }
+
+            {
+                isLoggedIn && userData?.customerRankStatus &&
+                <ul className="navbar-menu">
+                    <Link to='/' onClick={() => setMenu("home")}
+                          className={menu === "home" ? "active" : ""}>Home </Link>
+                    {/*<a href='#explore-menu' onClick={() => setMenu("menu")}*/}
+                    {/*   className={menu === "menu" ? "active" : ""}>Menu</a>*/}
+                    <a href='#footer' onClick={() => setMenu("contact")} className={menu === "contact" ? "active" : ""}>Contact
+                        Us</a>
+                </ul>
+            }
+
+
             <div className="navbar-right">
-                <img src={assets.search_icon} alt="" className="search-icon"/>
+
+                {/*{*/}
+                {/*    isLoggedIn && userData?.customerRankStatus &&*/}
+                {/*    <img src={assets.search_icon} alt="" className="search-icon"/>*/}
+                {/*}*/}
 
                 {
                     isLoggedIn && userData?.sellerRankStatus &&
@@ -60,10 +82,14 @@ const Navbar = ({setShowLogin}) => {
                 }
 
 
-                <div className="navbar-search-icon">
-                    <Link to='/cart'><img src={assets.cart_icon} alt="" className="basket-icon"/></Link>
-                    {/*<div className={getTotalCartAmount() === 0 ? "" : "dot"}></div>*/}
-                </div>
+                {
+                    isLoggedIn && userData?.customerRankStatus &&
+
+                    <div className="navbar-search-icon">
+                        <Link to='/cart'><img src={assets.cart_icon} alt="" className="basket-icon"/></Link>
+                        {/*<div className={getTotalCartAmount() === 0 ? "" : "dot"}></div>*/}
+                    </div>
+                }
 
                 {!isLoggedIn &&
                     <button onClick={() => {

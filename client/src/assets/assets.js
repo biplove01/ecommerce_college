@@ -63,6 +63,8 @@ import edit_icon from "./edit.svg"
 import bag_icon from './bag_icon.png'
 import logout_icon from './logout_icon.png'
 import parcel_icon from './parcel_icon.png'
+import star_filled from './starFilled.svg'
+import star_unfilled from './starUnfilled.svg'
 
 
 
@@ -72,6 +74,8 @@ export const assets = {
     header_img,
     search_icon,
     rating_starts,
+    star_filled,
+    star_unfilled,
     add_icon_green,
     add_icon_white,
     remove_icon_red,

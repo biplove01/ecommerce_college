@@ -7,6 +7,7 @@ import {assets} from "../../assets/assets";
 import {BACKEND_URL, CLOUDINARY_CLOUD_NAME} from "../../environment";
 import {useNavigate} from "react-router-dom";
 import Toaster from "../../components/Toaster/Toaster";
+import ProductItemList from "./ProductItemList";
 
 const AddProductsComponent = () => {
 
@@ -29,8 +30,6 @@ const AddProductsComponent = () => {
 
     const cld = new Cloudinary({cloud: {cloudName: CLOUDINARY_CLOUD_NAME}});
 
-    // const navigate = useNavigate()
-
     async function handleFileChange(e) {
         setImageUploading(true);
         const files = Array.from(e.target.files);
@@ -48,15 +47,17 @@ const AddProductsComponent = () => {
 
             if (res.ok) {
                 setToastContent({
+                    show: true,
                     type: "success",
                     title: "Image URL fetched",
                     message: "Image url is successfully fetched"
                 })
             } else {
                 setToastContent({
-                    type: "success",
-                    title: "Image URL fetched",
-                    message: "Image url is successfully fetched"
+                    show: true,
+                    type: "error",
+                    title: "Error Fetching URL",
+                    message: "There is an issue fetching image URL"
                 })
             }
 
@@ -102,24 +103,24 @@ const AddProductsComponent = () => {
         })
         if (res.ok) {
             setToastContent({
+                show: true,
                 type: "success",
-                title: "Image URL fetched",
-                message: "Image url is successfully fetched"
+                title: "Success",
+                message: "Product successfully Created"
             })
             clearEditOptions()
             window.location.href = "/productList"
         } else {
             setToastContent({
+                show: true,
                 type: "error",
-                title: "Trouble uploading product",
-                message: ""
+                title: "Error",
+                message: "Trouble Creating product post"
             })
         }
 
         const data = await res.json()
         console.log({"response from backend": data})
-
-
     };
 
 
@@ -135,6 +136,7 @@ const AddProductsComponent = () => {
             setDiscountPrice(productToEdit.discountedPrice ?? "");
             setImageUrls(productToEdit.images ? productToEdit.images.split("+") : []);
         }
+
     }, []);
 
     function clearEditOptions() {
@@ -148,10 +150,15 @@ const AddProductsComponent = () => {
         setImageUrls([]);
     }
 
+
     return (
         <>
 
-            <Toaster type={toastContent.type} title={toastContent.title} message={toastContent.message}/>
+            {
+                toastContent.show &&
+                <Toaster key={Date.now()} type={toastContent.type} title={toastContent.title}
+                         message={toastContent.message}/>
+            }
 
             <form onSubmit={handleSubmit} style={{
                 maxWidth: "400px",
@@ -270,6 +277,9 @@ const AddProductsComponent = () => {
             <div>
 
             </div>
+
+            <ProductItemList></ProductItemList>
+
         </>
 
     )

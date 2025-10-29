@@ -8,7 +8,6 @@ const ProductListPage = () => {
     return (
         <>
             <AddProductsComponent></AddProductsComponent>
-            <ProductItemList></ProductItemList>
         </>
     )
 }
