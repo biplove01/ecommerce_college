@@ -6,8 +6,16 @@ import {AdvancedImage} from "@cloudinary/react";
 import {assets} from "../../assets/assets";
 import {BACKEND_URL, CLOUDINARY_CLOUD_NAME} from "../../environment";
 import {useNavigate} from "react-router-dom";
+import Toaster from "../../components/Toaster/Toaster";
 
 const AddProductsComponent = () => {
+
+    const [toastContent, setToastContent] = useState({
+        show: false,
+        type: "success",
+        title: "",
+        message: "",
+    })
 
     const [imageUrls, setImageUrls] = useState([]);
 
@@ -37,11 +45,27 @@ const AddProductsComponent = () => {
                 method: "POST",
                 body: formData,
             });
+
+            if (res.ok) {
+                setToastContent({
+                    type: "success",
+                    title: "Image URL fetched",
+                    message: "Image url is successfully fetched"
+                })
+            } else {
+                setToastContent({
+                    type: "success",
+                    title: "Image URL fetched",
+                    message: "Image url is successfully fetched"
+                })
+            }
+
             const data = await res.json();
             uploadedUrls.push(data.public_id);
         }
 
         setImageUrls(prev => [...prev, ...uploadedUrls]);
+
         setImageUploading(false);
     }
 
@@ -76,14 +100,24 @@ const AddProductsComponent = () => {
             },
             body: JSON.stringify(productData),
         })
-        if(res.ok){
+        if (res.ok) {
+            setToastContent({
+                type: "success",
+                title: "Image URL fetched",
+                message: "Image url is successfully fetched"
+            })
             clearEditOptions()
             window.location.href = "/productList"
+        } else {
+            setToastContent({
+                type: "error",
+                title: "Trouble uploading product",
+                message: ""
+            })
         }
 
         const data = await res.json()
         console.log({"response from backend": data})
-
 
 
     };
@@ -116,6 +150,9 @@ const AddProductsComponent = () => {
 
     return (
         <>
+
+            <Toaster type={toastContent.type} title={toastContent.title} message={toastContent.message}/>
+
             <form onSubmit={handleSubmit} style={{
                 maxWidth: "400px",
                 margin: "20px auto",

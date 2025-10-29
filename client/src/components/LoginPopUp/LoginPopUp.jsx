@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react'
 import './LoginPopUp.css'
 import {assets} from '../../assets/assets'
 import {BACKEND_URL} from "../../environment";
+import Toaster from "../Toaster/Toaster";
 
 const LoginPopUp = ({setShowLogin}) => {
 
@@ -107,6 +108,8 @@ const LoginPopUp = ({setShowLogin}) => {
     };
 
 
+
+
     return (<div className='login-popup'>
 
         {/* Toast bar  */}
@@ -117,6 +120,13 @@ const LoginPopUp = ({setShowLogin}) => {
             </div>
             <button className="toast-close" onClick={() => setToast(prev => ({...prev, show: false}))}>✕</button>
         </div>
+        {/*<Toaster*/}
+        {/*    show={toast.show}*/}
+        {/*    type={toast.type}*/}
+        {/*    title={toast.title}*/}
+        {/*    message={toast.message}*/}
+        {/*    onClose={() => setToast(prev => ({ ...prev, show: false }))}*/}
+        {/*/>*/}
 
         <form className="login-popup-container">
 
