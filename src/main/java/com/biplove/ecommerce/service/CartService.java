@@ -95,6 +95,7 @@ public class CartService {
     itemDTO.setProductName(item.getProduct().getName());
     itemDTO.setProductPrice(item.getProduct().getPrice());
     itemDTO.setQuantity(item.getQuantity());
+    itemDTO.setImages(item.getProduct().getImages());
     return itemDTO;
   }
 }
