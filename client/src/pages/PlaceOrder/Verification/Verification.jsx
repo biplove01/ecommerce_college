@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import './Verification.css'; // You can create a simple CSS file for styling
 
-const Verification = () => {
+export const Verification = () => {
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
     const [message, setMessage] = useState("Verifying your payment, please wait...");

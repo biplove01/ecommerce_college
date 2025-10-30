@@ -4,7 +4,7 @@ import {StoreContext} from '../../context/storeContext'
 import './PlaceOrder.css'
 import {useNavigate} from 'react-router-dom'
 import {get} from 'mongoose'
-import {BACKEND_URL} from "../../environment";
+import {BACKEND_URL, KHALTI_PUBLIC_KEY} from "../../environment";
 
 
 const PlaceOrder = () => {
@@ -27,45 +27,35 @@ const PlaceOrder = () => {
         setData({...data, [name]: value})
     }
 
-
     const proceedToPayment = async (e) => {
         e.preventDefault();
 
         const totalAmount = getTotalCartAmount();
-        if (!totalAmount || totalAmount <= 0) {
-            alert("Your cart is empty or the amount is invalid.");
-            return;
-        }
-
-        const paymentRequest = {
-            amount: totalAmount * 100,
-            purchase_order_id: `ORDER_${Date.now()}`,   // fixed
-            purchase_order_name: `E-commerce Order`     // fixed
-        };
-
         try {
-            const response = await fetch(`${BACKEND_URL}/api/payment/khalti/initiate`, {
+            const res = await fetch(`${BACKEND_URL}/api/payment/khalti/initiate`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(paymentRequest),
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    amount: totalAmount * 100,
+                    purchaseOrderId: `ORDER_${Date.now()}`,
+                    purchaseOrderName: 'E-commerce Order'
+                })
             });
+            const data = await res.json();
 
-            // Improved error handling: Check if response is NOT ok
-            if (!response.ok) {
-                const errorResult = await response.json(); // Now we expect JSON
-                throw new Error(errorResult.message || 'Failed to start payment process.');
-            }
-
-            const result = await response.json();
-
-            if (result.payment_url) {
-                window.location.href = result.payment_url;
+            if (res.ok) {
+                if (data.payment_url) {
+                    window.location.replace(data.payment_url);
+                } else {
+                    console.log("Payment initiation failed on server")
+                    alert("Payment initiation failed on server.");
+                }
             } else {
-                throw new Error('Payment URL not found in the response.');
+                alert(data);
             }
+
         } catch (error) {
             console.error("Payment initiation error:", error);
-            alert(`Error: ${error.message}`);
         }
     };
 
