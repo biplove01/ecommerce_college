@@ -61,7 +61,7 @@ const Cart = () => {
 
     function handleProceedToCheckout() {
         navigate('/order')
-        sessionStorage.setItem("paymentAmount", getTotalCartAmount())
+        sessionStorage.setItem("paymentAmount", getTotalCartAmount()+ deliveryCharge)
     }
 
     return (
