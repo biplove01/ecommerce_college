@@ -11,6 +11,7 @@ const Cart = () => {
 
     const navigate = useNavigate()
     const [cartItems, setCartItems] = useState([])
+    const deliveryCharge = 2;
 
     const cld = new Cloudinary({cloud: {cloudName: CLOUDINARY_CLOUD_NAME}});
 
@@ -58,6 +59,11 @@ const Cart = () => {
         console.log("cart loaded")
     }, [])
 
+    function handleProceedToCheckout() {
+        navigate('/order')
+        sessionStorage.setItem("paymentAmount", getTotalCartAmount())
+    }
+
     return (
         <div className='cart'>
             <div className="cart-items">
@@ -91,7 +97,7 @@ const Cart = () => {
                                 <p>${item.productPrice}</p>
                                 <p>{item.quantity}</p>
                                 <p>${item.productPrice * item.quantity}</p>
-                                <p className='cross' onClick={() => removeFromCart(item._id)}>x</p>
+                                <p className='cross' onClick={() => removeFromCart(item.cartProductId)}>x</p>
                             </div>
                             <hr/>
                         </div>
@@ -111,15 +117,15 @@ const Cart = () => {
                         <hr/>
                         <div className="cart-total-details">
                             <p>Delivery Fee</p>
-                            <p>${getTotalCartAmount() === 0 ? 0 : 2}</p>
+                            <p>${getTotalCartAmount() === 0 ? 0 : deliveryCharge}</p>
                         </div>
                         <hr/>
                         <div className="cart-total-details">
                             <b>Total</b>
-                            <b>${getTotalCartAmount() === 0 ? 0 : getTotalCartAmount() + 2}</b>
+                            <b>${getTotalCartAmount() === 0 ? 0 : getTotalCartAmount() + deliveryCharge}</b>
                         </div>
                     </div>
-                    <button onClick={() => navigate('/order')}>PROCEED TO CHECKOUT</button>
+                    <button onClick={handleProceedToCheckout}>PROCEED TO CHECKOUT</button>
                 </div>
                 {/*<div className="cart-promocode">*/}
                 {/*  <div>*/}

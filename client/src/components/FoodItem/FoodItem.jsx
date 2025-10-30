@@ -116,17 +116,17 @@ const FoodItem = ({id, name, price, discountedPrice, description, images, rating
 
             </div>
             <div className="food-item-info">
-
-                <div className="food-item-rating" style={{display: "flex", gap: "0.2rem"}}>
-                    {Array.from({length: 5}).map((_, index) => (
-                        <img
-                            key={index}
-                            src={index < Math.round(rating || 0) ? assets.star_filled : assets.star_unfilled}
-                            alt="star"
-                            style={{width: "16px", height: "16px"}}
-                        />
-                    ))}
-                </div>
+                {/*<div className="food-item-rating" style={{display: "flex", gap: "0.2rem"}}>*/}
+                {/*    {Array.from({length: 5}).map((_, index) => (*/}
+                {/*        <img*/}
+                {/*            key={index}*/}
+                {/*            src={index < Math.round(rating || 0) ? assets.star_filled : assets.star_unfilled}*/}
+                {/*            alt="star"*/}
+                {/*            style={{width: "16px", height: "16px"}}*/}
+                {/*        />*/}
+                {/*    ))}*/}
+                {/*</div>*/}
+                <h3 style={{opacity:"0.7"}}>{name && name}</h3>
                 <p className='food-item-description'>{description && description}</p>
 
                 <div  style={{
