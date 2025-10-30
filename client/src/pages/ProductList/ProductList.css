@@ -1,0 +1,152 @@
+
+.login-popup-title{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: black;
+}
+
+.login-popup-title img{
+    width: 16px;
+    cursor: pointer;
+}
+
+.login-popup-inputs{
+    display: flex;
+    flex-direction: column;
+    gap:20px;
+}
+
+.login-popup-inputs input{
+    outline: none;
+    border: 1px solid #c9c9c9;
+    padding:10px;
+    border-radius: 5px;
+}
+
+.login-popup-container button{
+    border:none;
+    color:#ffffff;
+    font-weight: 500;
+    padding: 10px;
+    background-color: tomato;
+    font-size:15px;
+    border-radius: 50px;
+    cursor: pointer;
+}
+
+.login-popup-condition{
+    display: flex;
+    align-items: start;
+    gap:8px;
+    margin-top: -15px;
+    cursor: pointer;
+}
+
+.login-popup-condition input{
+    margin-top: 5px;
+}
+
+.login-popup p span{
+    color: tomato;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.checkboxes{
+    cursor: pointer;
+}
+
+.warning-text {
+    color: red;
+    font-size: 12px;
+    margin-top: 2px;
+}
+
+
+
+/*Toast message styling*/
+
+.toast-bar{
+    position: fixed;
+    top: 12px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-10px);
+    min-width: 320px;
+    max-width: 90%;
+    padding: 10px 14px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 220ms ease, opacity 220ms ease;
+    z-index: 9999;
+}
+
+/* visible state */
+.toast-bar.visible{
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* variants */
+.toast-bar.success{
+    background: #e6ffef;
+    border: 1px solid #7ee7b6;
+    color: #065f46;
+}
+
+.toast-bar.error{
+    background: #ffe6ea;
+    border: 1px solid #f59e9e;
+    color: #7f1d1d;
+}
+
+.toast-content { display:flex; flex-direction: column; gap: 2px; }
+.toast-title { font-size: 14px; }
+.toast-message { font-size: 12px; opacity: 0.95; }
+
+/* close button */
+.toast-close{
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 1;
+    padding: 4px;
+}
+
+button{
+    all: unset;
+    padding: 6px 8px;
+    border: 1px solid gray;
+    border-radius: 4px;
+    font-size: 12px;
+    text-align: center;
+    cursor: pointer;
+}
+
+button:hover{
+    background-color: #9fc0f8;
+
+}
+
+.little-x-btn{
+    position: absolute;
+    top: -6px;
+    left: -6px;
+    background: red;
+    color: white;
+    border-radius: 50%;
+    border: none;
+    width: 10px;
+    height: 12px;
+    cursor: pointer;
+    font-size: 12px;
+    line-height: 12px;
+}

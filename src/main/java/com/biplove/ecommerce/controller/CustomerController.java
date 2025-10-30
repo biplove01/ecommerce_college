@@ -22,7 +22,7 @@ public class CustomerController {
   
   @GetMapping("/{id}")
   public CustomerDTO getCustomer(@PathVariable Long id) {
-    return customerService.getCustomerById(id);
+    return customerService.getUserById(id);
   }
   
   @PostMapping("/update")

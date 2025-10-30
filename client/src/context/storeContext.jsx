@@ -1,57 +1,89 @@
 import {createContext, useEffect} from "react";
+import {useState} from "react";
 import {food_list} from "../assets/assets";
-import { useState } from "react";
-
-/*This is the context api used to manage the global state of the app*/
-/*This will be used to manage the cart items and user details*/
+import {BACKEND_URL} from "../environment";
+import axios from "axios";
 
 export const StoreContext = createContext(null);
 
 const StoreContextProvider = (props) => {
 
-    const [cartItems, setcartItems] = useState({}); // State to manage cart items
-
-    const addToCart = (itemId)=>{
-        if(!cartItems[itemId]){
-            setcartItems((prev)=>({...prev, [itemId]:1}))
-        }
-        else{
-            setcartItems((prev)=>({...prev, [itemId]:prev[itemId]+1}))
-        }
-    }
-
-    const removeFromCart = (itemId)=>{
-        if(cartItems[itemId] && cartItems[itemId]>1){
-            setcartItems((prev)=>({...prev, [itemId]:prev[itemId]-1}))
-        }
-        else{
-            const newCartItems = {...cartItems};
-            delete newCartItems[itemId];
-            setcartItems(newCartItems);
-        }
-    }
-    const getTotalCartAmount = ()=>{
-        let totalAmount = 0;
-        for(const item in cartItems){
-            if (cartItems[item]>0){
-                let itemInfo = food_list.find((product)=>product._id === item)
-                totalAmount += cartItems[item] * itemInfo.price
-            }    
-        }
-        return totalAmount;
-    }
-
+    // const [token, setToken] = useState(localStorage.getItem("accessToken") || "");
+    //
+    //
+    // const [cartItems, setCartItems] = useState([])
+    //
+    // const fetchCartItems = async () => {
+    //     try {
+    //         const res = await axios.get(`${BACKEND_URL}/cart/getAll`, {
+    //             headers: { Authorization: `Bearer ${token}` },
+    //         });
+    //         setCartItems(res.data.products || []);
+    //     } catch (err) {
+    //         console.error("Error fetching cart items:", err.message);
+    //     }
+    // };
+    //
+    // const addToCart = async (productId, quantity = 1) => {
+    //     try {
+    //         await axios.post(
+    //             `${BACKEND_URL}/cart/add`,
+    //             { productId, quantity },
+    //             { headers: { Authorization: `Bearer ${token}` } }
+    //         );
+    //         await fetchCartItems();
+    //     } catch (err) {
+    //         console.error("Error adding to cart:", err.message);
+    //     }
+    // };
+    //
+    // const removeFromCart = async (cartProductId) => {
+    //     try {
+    //         await axios.delete(`${BACKEND_URL}/cart/remove/${cartProductId}`, {
+    //             headers: { Authorization: `Bearer ${token}` },
+    //         });
+    //         await fetchCartItems();
+    //     } catch (err) {
+    //         console.error("Error removing from cart:", err.message);
+    //     }
+    // };
+    //
+    // const getTotalCartAmount = async () => {
+    //     try {
+    //         const res = await axios.get(`${BACKEND_URL}/cart/totalAmount`, {
+    //             headers: { Authorization: `Bearer ${token}` },
+    //         });
+    //         return res.data || 0;
+    //     } catch (err) {
+    //         console.error("Error getting total amount:", err.message);
+    //         return 0;
+    //     }
+    // };
+    //
+    //
+    // useEffect(() => {
+    //     if (token) fetchCartItems().then(r => console.log(""))
+    // }, [token])
+    //
+    //
+    // useEffect(() => {
+    //     const savedToken = localStorage.getItem("accessToken");
+    //     if (savedToken) setToken(savedToken);
+    // }, []);
 
     const contextValue = {
-        food_list,
-        cartItems,
-        addToCart,
-        removeFromCart,
-        getTotalCartAmount
+        // food_list,
+        // token,
+        // setToken,
+        // cartItems,
+        // addToCart,
+        // removeFromCart,
+        // getTotalCartAmount
     }
-        
-    
-    return(<StoreContext.Provider value={contextValue}>{props.children}</StoreContext.Provider>)
+
+    return (
+        <StoreContext.Provider value={contextValue}>{props.children}</StoreContext.Provider>
+    )
 }
 
 export default StoreContextProvider;

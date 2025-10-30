@@ -17,6 +17,5 @@ public class SellerDTO {
   private String address;
   private Long phone;
   private SellerRankStatus sellerRankStatus;
-
-
+  
 }

@@ -2,13 +2,18 @@ package com.biplove.ecommerce.controller;
 
 import com.biplove.ecommerce.DTOs.*;
 import com.biplove.ecommerce.GlobalExceptionHandler.CustomExceptions.UserAlreadyExistsException;
+import com.biplove.ecommerce.GlobalExceptionHandler.CustomExceptions.UserDoesnotExistsException;
 import com.biplove.ecommerce.models.Role;
 import com.biplove.ecommerce.models.User.CustomerMapper;
 import com.biplove.ecommerce.models.User.SellerMapper;
 import com.biplove.ecommerce.models.User.UserEntity;
+import com.biplove.ecommerce.models.enums.CustomerRankStatus;
+import com.biplove.ecommerce.models.enums.SellerRankStatus;
 import com.biplove.ecommerce.repository.RoleRepository;
 import com.biplove.ecommerce.repository.UserRepository;
 import com.biplove.ecommerce.security.JWTGenerator;
+import com.biplove.ecommerce.service.CustomerService;
+import com.biplove.ecommerce.service.SellerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,12 +27,17 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.Collections;
+import java.util.Optional;
 
 @Slf4j
 @RestController
 @RequestMapping("/api/auth")
 
 public class AuthController {
+  
+  private final CustomerService customerService;
+  private final SellerService sellerService;
+
 
   private final AuthenticationManager authenticationManager;
   private final UserRepository userRepository;
@@ -36,7 +46,11 @@ public class AuthController {
   private final JWTGenerator jwtGenerator;
   
   @Autowired
-  public AuthController(AuthenticationManager authenticationManager, UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, JWTGenerator jwtGenerator) {
+  public AuthController(CustomerService customerService, SellerService sellerService, AuthenticationManager authenticationManager, UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, JWTGenerator jwtGenerator) {
+    this.customerService = customerService;
+    this.sellerService = sellerService;
+    
+    
     this.authenticationManager = authenticationManager;
     this.userRepository = userRepository;
     this.roleRepository = roleRepository;
@@ -52,12 +66,29 @@ public class AuthController {
             loginDTO.getPassword()));
     SecurityContextHolder.getContext().setAuthentication(authentication);
 
+    Optional<UserEntity> user = this.userRepository.findByEmail(loginDTO.getEmail());
+
+    if(user.isEmpty()){
+      throw new UserDoesnotExistsException("User not found");
+    }
+    UserEntity userEntity = user.get();
+    
+    
     String token = jwtGenerator.generateToken(authentication);
-    return new ResponseEntity<>(new AuthResponseDTO(token), HttpStatus.OK);
+    
+    if(userEntity.getCustomerRankStatus() != null){
+      CustomerDTO customerDTO = CustomerMapper.mapToCustomerDTO(userEntity);
+      
+      return new ResponseEntity<>(new AuthResponseDTO(token, customerDTO), HttpStatus.OK);
+    }
+    
+    SellerDTO sellerDTO = SellerMapper.mapToSellerDTO(userEntity);
+    return new ResponseEntity<>(new AuthResponseDTO(token, sellerDTO), HttpStatus.OK);
+    
   }
   
   @PostMapping("/register/customer")
-  public ResponseEntity<CustomerDTO> register(@RequestBody RegisterDTO user){
+  public ResponseEntity<CustomerDTO> register(@RequestBody CustomerRegisterDTO user){
     
     if(userRepository.existsByEmail(user.getEmail())){
         throw new UserAlreadyExistsException("This email is already taken!");
@@ -67,6 +98,8 @@ public class AuthController {
     newCustomer.setName(user.getName());
     newCustomer.setPassword(passwordEncoder.encode(user.getPassword()));
     newCustomer.setEmail((user.getEmail()));
+    newCustomer.setPhone(user.getPhone());
+    newCustomer.setCustomerRankStatus(CustomerRankStatus.BRONZE);
     
     Role roles = roleRepository.findByName("CUSTOMER")
         .orElseThrow(() -> new RuntimeException("Role CUSTOMER not found on DB"));
@@ -80,17 +113,20 @@ public class AuthController {
   
   
   @PostMapping("/register/seller")
-  public ResponseEntity<SellerDTO> registerSeller(@RequestBody RegisterDTO user){
+  public ResponseEntity<SellerDTO> registerSeller(@RequestBody SellerRegisterDTO user){
     
     if(userRepository.existsByEmail(user.getEmail())){
-//      return new ResponseEntity<>("The email is already taken", HttpStatus.BAD_REQUEST);
       throw new UserAlreadyExistsException("This email is already taken");
     }
     
     UserEntity newSeller = new UserEntity();
     newSeller.setName(user.getName());
     newSeller.setPassword(passwordEncoder.encode(user.getPassword()));
-    newSeller.setEmail((user.getEmail()));
+    newSeller.setEmail(user.getEmail());
+    newSeller.setPhone(user.getPhone());
+    newSeller.setShopName(user.getShopName());
+    newSeller.setAddress(user.getAddress());
+    newSeller.setSellerRankStatus(SellerRankStatus.BRONZE);
     
     Role roles = roleRepository.findByName("SELLER")
         .orElseThrow(() -> new RuntimeException("Role SELLER not found on DB"));

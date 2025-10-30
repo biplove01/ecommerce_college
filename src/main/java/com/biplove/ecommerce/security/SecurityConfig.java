@@ -44,38 +44,41 @@ public class SecurityConfig {
             sessionManagement ->
                 sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         
-        .authorizeHttpRequests(authz-> authz
+        .authorizeHttpRequests(authz -> authz
 //                .anyRequest().permitAll()
                 .requestMatchers("/error").permitAll()
                 .requestMatchers(HttpMethod.GET, "/product/**").permitAll()
-            .requestMatchers(HttpMethod.POST, "/product/**").hasAnyAuthority(String.valueOf(UserRole.SELLER))
-            .requestMatchers(HttpMethod.GET, "/customer/**").permitAll()
-            .requestMatchers(HttpMethod.POST, "/photos/**").permitAll()
-            .requestMatchers(HttpMethod.GET, "/photos/**").permitAll()
-            .requestMatchers(HttpMethod.GET, "/seller/**").permitAll()
-            .requestMatchers(HttpMethod.POST, "/api/auth/**").permitAll()
-            .requestMatchers("/admin/**").hasRole("ADMIN")
-            .anyRequest().authenticated()
+                .requestMatchers(HttpMethod.POST, "/product/**").hasAnyAuthority(String.valueOf(UserRole.SELLER))
+//                .requestMatchers(HttpMethod.POST, "/product/**").permitAll()
+                .requestMatchers(HttpMethod.DELETE, "/product/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/customer/**").permitAll()
+                .requestMatchers(HttpMethod.POST, "/photos/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/photos/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/seller/**").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/auth/**").permitAll()
+                .requestMatchers("/admin/**").hasRole("ADMIN")
+                .anyRequest().authenticated()
         )
         
         .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
-        .httpBasic(httpBasic->{});
+        .httpBasic(httpBasic -> {
+        });
     
     return http.build();
   }
   
   @Bean
-  public JWTAuthenticationFilter jwtAuthenticationFilter(){
+  public JWTAuthenticationFilter jwtAuthenticationFilter() {
     return new JWTAuthenticationFilter();
   }
   
   @Bean
-  public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception{
-    return  authenticationConfiguration.getAuthenticationManager();
+  public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+    return authenticationConfiguration.getAuthenticationManager();
   }
   
   @Bean
-    PasswordEncoder passwordEncoder(){
+  PasswordEncoder passwordEncoder() {
     return new BCryptPasswordEncoder();
   }
 }

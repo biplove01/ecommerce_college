@@ -61,6 +61,40 @@
     right: -8px;
 }
 
+.profile-icon{
+    height: 2rem;
+    width: 2rem;
+    cursor: pointer;
+}
+
+.profileClickMenu {
+    position: absolute;
+    top: 70px;
+    right: 7%;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    width: 100px;
+    z-index: 100;
+    padding: 8px;
+}
+
+.profileClickMenu p {
+    margin: 0;
+    font-size: 0.8rem;
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.profileClickMenu p:hover {
+    background-color: #f44336; /* red on hover */
+    color: white;
+    border-radius: 4px;
+}
+
+
 @media(max-width: 1050px){
     .navbar .logo{
         width: 140px;

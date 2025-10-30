@@ -34,6 +34,7 @@ public class UserEntity {
   private CustomerRankStatus customerRankStatus;
   private SellerRankStatus sellerRankStatus;
   private String shopName;
+  private String image;
   
   @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
   @JoinTable(name = "user_roles",
