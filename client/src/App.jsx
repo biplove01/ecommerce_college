@@ -10,8 +10,8 @@ import { useState } from 'react'
 import LoginPopUp from './components/LoginPopUp/LoginPopUp'
 import AddProductsComponent from "./pages/ProductList/AddProductsComponent";
 import ProductListPage from "./pages/ProductList/ProductListPage";
-import Verification  from './pages/Verification/Verification'
 import MyOrders from './pages/MyOrders/MyOrders'
+import Verification from "./pages/PlaceOrder/Verification/Verification";
 
 function App() {
 
